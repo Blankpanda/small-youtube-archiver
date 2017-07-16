@@ -1,0 +1,40 @@
+* Purpose
+Need a small application to allow me to download a channels youtube videos, including their descriptions, titles and possibly tags.
+The main use would be for my(our) youtube channel, allowing us to archive videos, in case they get removed at any point.
+* Technology
+** python
+quick application, no need to use anything 'heavier', also has great libraries.
+*** libraries
+**** some library to interface with SQL lite
+**** some library to interface with Youtube (would rather not use this, if nessecary)
+**** youtube-dl
+*** SQLlite
+create an archive for youtube channels.
+**** database table
+ (archive table)
+	id int
+	channel		varchar(?)
+	url		varchar(?)
+	title		varchar(?)
+	description	varchar(?)
+	likes		int
+	dislikes	int
+	tags_id		int ; hopefully some reference to another table that contains the references for tags if not varchar(?)
+	file_path	varchar(?)
+
+ (tags table)
+	id int
+	channel	varchar(?)
+	video_id int ; could probably just use id.
+	* tags
+	
+	for now: single field for tags.
+**** youtube api
+	need a library for this?
+	 AIzaSyD2GHw_rhIAyjZG40OWpvf0fric0MdVIHk 
+
+		https://www.googleapis.com/youtube/v3/search?key={your_key_here}&channelId={channel_id_here}&part=snippet,id&order=date&maxResults=20	
+https://stackoverflow.com/questions/30081301/getting-all-videos-of-a-channel-using-youtube-api
+* Upgrade
+Comments?
+
