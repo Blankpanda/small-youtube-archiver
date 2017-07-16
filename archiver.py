@@ -1,6 +1,7 @@
 import db
 import os
 import shutil
+import helpers
 
 from random import *
 
@@ -25,6 +26,9 @@ class archiveManager:
 
     def create_new_archive(self,name):
 #        new_name = self._create_random_key() + "-" + name
+        if not os.path.exists("archives"):
+            os.makedirs("archives")
+            
         if os.path.exists("archives" + "/" + name):
             print("archive already exists!")
             return None        
@@ -45,7 +49,7 @@ class archiveManager:
         tmpdb.close_db()
 
         print("Archive created! path=" + 'archives' + "/" + name)
-        new_archive = archive("archives/" + name + "/" + name + ".db")
+        new_archive = archive("archives/" + name + "/" + namse + ".db")
         self._archives_list.append(new_archive)
 
     def delete_archive(self,name):
@@ -87,8 +91,15 @@ class archive:
     def get_archive_name(self):
         return self._archive_name
                        
-    def add_to_archive(self):
-        pass
+    def add_to_archive(self,url,video_item):        
+        #created file from youtube-dl, lets say
+        f = open("archives/" + self._archive_name + "/" + video_item.items['title']+".mp4",'w')
+        f.close()
+        # insert it into the table as well
+        sql = "INSERT INTO Videos VALUES " + helpers.create_sql_list(video_item.items);
+        print(sql)
+        self._db.execute_sql(sql)
+        
     
     def delete_from_archive(self,name):
         pass
@@ -96,7 +107,7 @@ class archive:
     def find_in_archive(self):
         pass
 
-    def list_archive_units(self):
+    def list_archived(self):
         pass
     
     def get_db_name(self):
