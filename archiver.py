@@ -47,10 +47,11 @@ class archiveManager:
                        "file_path text);")
         tmpdb.execute_sql(create_string)
         tmpdb.close_db()
-
+        
         print("Archive created! path=" + 'archives' + "/" + name)
         new_archive = archive("archives/" + name + "/" + namse + ".db")
         self._archives_list.append(new_archive)
+        return new_archive
 
     def delete_archive(self,name):
         archive = self.find_archive_by_name(name)
@@ -84,34 +85,37 @@ class archive:
     _dir_path = ""    
     def __init__(self,database):
         self._archive_name = database.split("/")[1:2][0]
-        self._dir_path = "/".join(database.split("/")[:2])                       
+        self._dir_path = "/".join(database.split("/")[:2])    
         self._db_name = database
         self._db = db.database(database)
 
+
     def get_archive_name(self):
         return self._archive_name
+
+    def get_db_name(self):
+        return self._db_name
+    
+    def get_dir_path(self):
+        return self._dir_path
                        
-    def add_to_archive(self,url,video_item):        
+    def add_to_archive(self,url,video_item):
         #created file from youtube-dl, lets say
         f = open("archives/" + self._archive_name + "/" + video_item.items['title']+".mp4",'w')
         f.close()
         # insert it into the table as well
+        # check by title to see if this video already exists, dont add it if nessecary.
         sql = "INSERT INTO Videos VALUES " + helpers.create_sql_list(video_item.items);
         print(sql)
         self._db.execute_sql(sql)
         
     
     def delete_from_archive(self,name):
-        pass
-
-    def find_in_archive(self):
-        pass
+        # assuming everything is a .mp4
+        os.remove(name + ".mp4")
+        sql = ""
+        
 
     def list_archived(self):
-        pass
+        self._db.execute(sql)
     
-    def get_db_name(self):
-        return _db_name
-
-    def get_dir_path(self):
-        return _dir_path

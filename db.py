@@ -29,8 +29,9 @@ class database:
     def execute_sql(self,sql):
         self._db_cursor = self._db_object.cursor()
         #todo, a ton of error checking
-        self._db_cursor.execute(sql)
+        data = self._db_cursor.execute(sql)
         self._save_changes()
+        return data
 
     def _save_changes(self):
         self._db_object.commit()
